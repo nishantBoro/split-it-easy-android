@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="0dp"
+    tools:context=".AddBillActivity">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/addBillToolbar"/>
+
+    <EditText
+        android:id="@+id/addBillItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Item name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/addBillItemCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Item cost"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:inputType="numberDecimal"/>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/addBillItemCurrencySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"/>
+
+</LinearLayout>

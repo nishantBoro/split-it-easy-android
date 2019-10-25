@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SplitItEasy</string>
+
+    <string-array name="currencySymbols">
+        <item>INR</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>SGD</item>
+    </string-array>
 </resources>

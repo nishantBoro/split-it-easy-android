@@ -1,6 +1,7 @@
 package com.nishantboro.splititeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Intent intent;
         switch(v.getId()) {
-            case R.id.listGroups : intent = new Intent(this,ListGroupsActivity.class);startActivity(intent);break;
-            case R.id.addNewGroup : intent = new Intent(this,AddNewGroupActivity.class);startActivity(intent);break;
+            case R.id.listGroups : intent = new Intent(this,GroupListActivity.class);startActivity(intent);break;
+            case R.id.addNewGroup : intent = new Intent(this,CreateNewGroupActivity.class);startActivity(intent);break;
             default:break;
         }
     }

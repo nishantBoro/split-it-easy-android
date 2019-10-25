@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
-    <TextView
+    android:gravity="center"
+    tools:context=".AddNewGroupActivity">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/membersRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        android:background="@color/lightGray" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/membersFragmentAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Members listed here"
-        android:textSize="25dp"
-        android:textStyle="bold">
-    </TextView>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="41dp"
+        android:src="@drawable/ic_add_white" />
 
-</LinearLayout>
+</RelativeLayout>
