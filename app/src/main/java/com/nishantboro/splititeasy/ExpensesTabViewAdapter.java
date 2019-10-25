@@ -10,11 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabViewAdapter.ExpenseDetailViewHolder> {
 
-    private ArrayList<BillType> list = new ArrayList<>();
+    private List<BillEntity> list = new ArrayList<>();
 
     // Provide a reference to the views for each name in our expenseList Array:
     static class ExpenseDetailViewHolder extends RecyclerView.ViewHolder {
@@ -30,9 +31,6 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
         }
     }
 
-    ExpensesTabViewAdapter(ArrayList<BillType> data) {
-        list = data;
-    }
 
     // Create new viewHolder (invoked by the layout manager)
     @NonNull
@@ -45,14 +43,19 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
     // Bind the data in ExpenseList[position] to the holder created by Layout manager
     @Override
     public void onBindViewHolder(@NonNull ExpenseDetailViewHolder holder, int position) {
-        holder.textViewItem.setText(list.get(position).getItem());
-        holder.textViewItem.setText(list.get(position).getCost());
-        holder.textViewCurrency.setText(list.get(position).getCurrency());
+        holder.textViewItem.setText(list.get(position).item);
+        holder.textViewCost.setText(list.get(position).cost);
+        holder.textViewCurrency.setText(list.get(position).currency);
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void storeToList(List<BillEntity> billEntities) {
+        this.list = billEntities;
+        notifyDataSetChanged();
     }
 
 }

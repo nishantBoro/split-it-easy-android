@@ -12,11 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAdapter.MemberDetailViewHolder> {
 
-    private ArrayList<String> list = new ArrayList<>();
+    private List<MemberEntity> list = new ArrayList<>();
 
     // Provide a reference to the views for each name in our membersList Array:
     static class MemberDetailViewHolder extends RecyclerView.ViewHolder {
@@ -26,10 +27,6 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
             super(itemView);
             textView = itemView.findViewById(R.id.memberDetailName); // get the textView View component from member_detail.xml and attach it to our holder
         }
-    }
-
-    MembersTabViewAdapter(ArrayList<String> names) {
-        list = names;
     }
 
     // Create new viewHolder (invoked by the layout manager)
@@ -43,12 +40,17 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
     // Bind the name in membersList[position] to the holder created by Layout manager
     @Override
     public void onBindViewHolder(@NonNull MemberDetailViewHolder holder, int position) {
-        holder.textView.setText(list.get(position));
+        holder.textView.setText(list.get(position).name);
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void storeToList(List<MemberEntity> memberEntities) {
+        this.list = memberEntities;
+        notifyDataSetChanged();
     }
 
 }

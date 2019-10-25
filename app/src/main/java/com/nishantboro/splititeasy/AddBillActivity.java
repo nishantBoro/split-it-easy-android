@@ -3,6 +3,9 @@ package com.nishantboro.splititeasy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +22,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
     private EditText editTextItem;
     private EditText editTextCost;
     private String currency;
+    private String gName;
 
 
     private void saveExpense() {
@@ -31,8 +35,9 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
             return;
         }
 
-        // store the BillType Object in database
-
+        // store to database
+        BillViewModel billViewModel = ViewModelProviders.of(this,new BillViewModelFactory(this.getApplication(),gName)).get(BillViewModel.class);
+        billViewModel.insert(new BillEntity(item,cost,currency,gName));
     }
 
     @Override
@@ -40,6 +45,10 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_bill);
+
+        // get the data(group name) from the intent that started this activity
+        Intent intent = getIntent();
+        this.gName = intent.getStringExtra(GroupListActivity.EXTRA_TEXT_GNAME);
 
         this.editTextItem = findViewById(R.id.addBillItemName);
         this.editTextCost = findViewById(R.id.addBillItemCost);
@@ -54,7 +63,7 @@ public class AddBillActivity extends AppCompatActivity implements AdapterView.On
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add Expense to Group");
+        setTitle("Add an Expense");
     }
 
     @Override

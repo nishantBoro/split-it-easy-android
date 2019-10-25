@@ -3,11 +3,8 @@ package com.nishantboro.splititeasy;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.google.android.material.tabs.TabLayout;
 
 public class HandleOnGroupClickActivity extends AppCompatActivity {
@@ -30,7 +27,7 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
 
         AddNewGroupFragmentsViewAdapter adapter = new AddNewGroupFragmentsViewAdapter(getSupportFragmentManager(),0);
         adapter.addFragment(new MembersTabFragment(gName),"Members");
-        adapter.addFragment(new ExpensesTabFragment(),"Expenses");
+        adapter.addFragment(new ExpensesTabFragment(gName),"Expenses");
         adapter.addFragment(new BalancesTabFragment(),"Balances");
 
         viewPager.setAdapter(adapter);

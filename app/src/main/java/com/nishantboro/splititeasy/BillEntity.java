@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class BillEntity {
-    BillEntity(String item, String cost, String currency) {
+    BillEntity(String item, String cost, String currency, String gName) {
         this.item = item;
         this.cost = cost;
         this.currency = currency;
+        this.gName = gName;
     }
     @PrimaryKey(autoGenerate = true)
     public int uid;
@@ -22,4 +23,7 @@ public class BillEntity {
 
     @ColumnInfo(name = "Currency")
     public String currency;
+
+    @ColumnInfo(name = "GroupName")
+    public String gName;
 }
