@@ -40,7 +40,6 @@ public class AddMemberActivity extends AppCompatActivity {
         // get the data(group name) from the intent that started this activity
         Intent intent = getIntent();
         this.gName = intent.getStringExtra(GroupListActivity.EXTRA_TEXT_GNAME);
-
         this.editText = findViewById(R.id.addMemberNameText);
 
         // set toolbar

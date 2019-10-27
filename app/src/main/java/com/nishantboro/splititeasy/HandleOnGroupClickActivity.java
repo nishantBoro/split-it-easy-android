@@ -28,7 +28,7 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
         AddNewGroupFragmentsViewAdapter adapter = new AddNewGroupFragmentsViewAdapter(getSupportFragmentManager(),0);
         adapter.addFragment(new MembersTabFragment(gName),"Members");
         adapter.addFragment(new ExpensesTabFragment(gName),"Expenses");
-        adapter.addFragment(new BalancesTabFragment(),"Balances");
+        adapter.addFragment(new BalancesTabFragment(gName),"Balances");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
