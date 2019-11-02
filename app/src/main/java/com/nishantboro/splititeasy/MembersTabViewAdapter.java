@@ -100,13 +100,6 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
                     return true;
                 }
             });
-
-            this.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MembersTabViewAdapter.MemberDetailViewHolder.this.selectItem(member);
-                }
-            });
         }
 
         void selectItem(MemberEntity member) {
@@ -134,6 +127,7 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
     // Bind the name in membersList[position] to the holder created by Layout manager
     @Override
     public void onBindViewHolder(@NonNull MemberDetailViewHolder holder, int position) {
+        final MemberDetailViewHolder hold = holder;
         holder.textView.setText(this.list.get(position).name);
         holder.update(this.list.get(position));
 
@@ -142,7 +136,10 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MembersTabViewAdapter.this.listener != null) {
+                if(MembersTabViewAdapter.this.multiSelect) {
+                    hold.selectItem(MembersTabViewAdapter.this.list.get(pos));
+                }
+                if(MembersTabViewAdapter.this.listener != null && !MembersTabViewAdapter.this.multiSelect) {
                     MembersTabViewAdapter.this.listener.onItemClick(MembersTabViewAdapter.this.list.get(pos));
                 }
             }

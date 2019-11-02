@@ -5,7 +5,6 @@ package com.nishantboro.splititeasy;
 
 import android.app.Application;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -105,12 +104,12 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
                 }
             });
 
-            this.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ExpensesTabViewAdapter.ExpenseDetailViewHolder.this.selectItem(bill);
-                }
-            });
+//            this.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    ExpensesTabViewAdapter.ExpenseDetailViewHolder.this.;
+//                }
+//            });
         }
 
         void selectItem(BillEntity bill) {
@@ -139,6 +138,7 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
     // Bind the data in ExpenseList[position] to the holder created by Layout manager
     @Override
     public void onBindViewHolder(@NonNull ExpenseDetailViewHolder holder, int position) {
+        final ExpenseDetailViewHolder hold = holder;
         holder.textViewItem.setText(this.list.get(position).item);
         holder.textViewCost.setText(this.list.get(position).cost);
 
@@ -151,7 +151,10 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ExpensesTabViewAdapter.this.listener != null) {
+                if(ExpensesTabViewAdapter.this.multiSelect) {
+                    hold.selectItem(ExpensesTabViewAdapter.this.list.get(pos));
+                }
+                if(ExpensesTabViewAdapter.this.listener != null && !ExpensesTabViewAdapter.this.multiSelect) {
                     ExpensesTabViewAdapter.this.listener.onItemClick(ExpensesTabViewAdapter.this.list.get(pos));
                 }
             }
