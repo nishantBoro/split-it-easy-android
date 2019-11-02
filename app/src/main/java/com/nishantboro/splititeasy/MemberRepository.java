@@ -37,7 +37,6 @@ public class MemberRepository {
         return allMembers;
     }
 
-
     private static class InsertMemberAsyncTask extends AsyncTask<MemberEntity,Void,Void> {
         private MemberDao memberDao;
 

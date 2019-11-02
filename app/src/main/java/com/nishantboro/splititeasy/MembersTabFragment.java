@@ -23,6 +23,12 @@ import java.util.List;
 
 public class MembersTabFragment extends Fragment {
     private String gName;
+    private static final int ADD_MEMBER_REQUEST = 1;
+    private static final int EDIT_MEMBER_REQUEST = 2;
+    public static final String EXTRA_TEXT = "com.nishantboro.splititeasy.EXTRA_TEXT";
+    public static final String EXTRA_ID = "com.nishantboro.splititeasy.EXTRA_ID";
+    public static final String EXTRA_TEXT_TWO = "com.nishantboro.splititeasy.EXTRA_TEXT_TWO";
+    public static final String EXTRA_TEXT_THREE = "com.nishantboro.splititeasy.EXTRA_TEXT_THREE";
     private MemberViewModel memberViewModel;
     private MembersTabViewAdapter adapter;
     private List<MemberEntity> members = new ArrayList<>();
@@ -38,7 +44,7 @@ public class MembersTabFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("x", "onCreateView() called of members");
         View view = inflater.inflate(R.layout.members_fragment,container,false);
 
@@ -68,16 +74,22 @@ public class MembersTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddEditMemberActivity.class);
-                intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,gName);
-                getActivity().startActivity(intent);
+                intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,MembersTabFragment.this.gName);
+                intent.putExtra("requestCode",ADD_MEMBER_REQUEST);
+                MembersTabFragment.this.getActivity().startActivityFromFragment(MembersTabFragment.this,intent,ADD_MEMBER_REQUEST);
             }
         });
 
         this.adapter.setOnItemClickListener(new MembersTabViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MemberEntity member) {
+                Log.d("click", "you clicked at the right");
                 Intent intent = new Intent(MembersTabFragment.this.getActivity(), AddEditMemberActivity.class);
-                
+                intent.putExtra(MembersTabFragment.EXTRA_TEXT,member.name);
+                intent.putExtra("requestCode",EDIT_MEMBER_REQUEST);
+                intent.putExtra(MembersTabFragment.EXTRA_ID,member.id);
+                intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,MembersTabFragment.this.gName);
+                MembersTabFragment.this.getActivity().startActivityFromFragment(MembersTabFragment.this,intent,EDIT_MEMBER_REQUEST);
             }
         });
 

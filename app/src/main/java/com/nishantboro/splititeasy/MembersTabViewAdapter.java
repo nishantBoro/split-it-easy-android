@@ -5,6 +5,7 @@ package com.nishantboro.splititeasy;
 
 import android.app.Application;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,16 +79,6 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
             super(itemView);
             this.textView = itemView.findViewById(R.id.memberDetailName); // get the textView View component from member_detail.xml and attach it to our holder
             this.relativeLayout = itemView.findViewById(R.id.memberDetail);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if(MembersTabViewAdapter.this.listener != null && position != RecyclerView.NO_POSITION) {
-                        MembersTabViewAdapter.this.listener.onItemClick(MembersTabViewAdapter.this.list.get(position));
-                    }
-                }
-            });
         }
 
         void update(final MemberEntity member) {
@@ -145,6 +136,17 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
     public void onBindViewHolder(@NonNull MemberDetailViewHolder holder, int position) {
         holder.textView.setText(this.list.get(position).name);
         holder.update(this.list.get(position));
+
+        final int pos = position;
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(MembersTabViewAdapter.this.listener != null) {
+                    MembersTabViewAdapter.this.listener.onItemClick(MembersTabViewAdapter.this.list.get(pos));
+                }
+            }
+        });
     }
 
     @Override
