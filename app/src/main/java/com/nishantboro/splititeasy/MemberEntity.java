@@ -11,7 +11,8 @@ public class MemberEntity {
         this.gName = gName;
     }
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    @ColumnInfo(name = "Id")
+    public int id;
 
     @ColumnInfo(name = "GroupName")
     public String gName;

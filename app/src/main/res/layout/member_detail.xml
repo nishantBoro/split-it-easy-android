@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="7dp">
 
     <RelativeLayout
+        android:id="@+id/memberDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/memberDetailAvatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="2dp"
+            android:src="@drawable/ic_member_icon"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
             />
 
         <TextView
@@ -25,21 +32,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/memberDetailAvatar"
+            android:layout_toEndOf="@+id/memberDetailAvatar"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="6dp"
-            android:layout_toEndOf="@+id/memberDetailAvatar"
-            android:layout_toRightOf="@+id/memberDetailAvatar"
+            android:layout_marginTop="25dp"
             android:text="Jane Doe"
-            android:textColor="@android:color/black"
-            android:textSize="35sp"
+            android:textColor="@color/colorTextMain"
+            android:textSize="20sp"
             android:textStyle="bold" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_marginTop="60dp"
-            android:layout_height="2dp"
-            android:background="@color/lightGray" />
 
     </RelativeLayout>
 

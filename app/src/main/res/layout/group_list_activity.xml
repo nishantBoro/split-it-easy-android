@@ -6,12 +6,17 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:context=".GroupListActivity">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/groupListToolbar"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/group_list_recycler_view"
+        android:layout_below="@+id/groupListToolbar"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp"
-        android:scrollbars="vertical"
-        android:background="@color/lightGray" />
+        android:background="@color/lightGray"
+        android:scrollbars="vertical" />
 
 </RelativeLayout>

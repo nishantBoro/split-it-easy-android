@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddMemberActivity"/>
+        <activity android:name=".AddEditMemberActivity"/>
         <activity android:name=".HandleOnGroupClickActivity" />
         <activity android:name=".GroupListActivity" />
         <activity android:name=".AddBillActivity" />

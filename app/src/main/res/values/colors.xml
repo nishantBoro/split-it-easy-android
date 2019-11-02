@@ -3,7 +3,8 @@
     <color name="colorPrimary">#FFC107</color>
     <color name="tabTextColor">#fff</color>
     <color name="tabIndicatorColor">#272626</color>
-    <color name="colorPrimaryDark">#224ADB</color>
+    <color name="colorPrimaryDark">#8234ba</color>
+    <color name="colorTextMain">#3C6086</color>
     <color name="backgroundColor">#fcfcfc</color>
     <color name="lightGray">#ededed</color>
     <color name="deepPurple">#7c4dff</color>

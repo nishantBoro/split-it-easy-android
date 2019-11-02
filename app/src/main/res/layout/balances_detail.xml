@@ -9,58 +9,60 @@
     app:cardCornerRadius="7dp">
 
     <RelativeLayout
-        android:id="@+id/expenseDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/expenseDetailItemImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="2dp"
-            android:src="@drawable/ic_expense_icon"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="14dp"
-            />
-
         <TextView
-            android:id="@+id/expenseDetailItem"
+            android:id="@+id/balanceDetailSender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/expenseDetailItemImage"
-            android:layout_toEndOf="@+id/expenseDetailItemImage"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="23dp"
-            android:text="Vegetables"
+            android:text="A"
             android:textColor="@color/colorTextMain"
             android:textSize="23sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/expenseDetailCurrency"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:padding="2dp"
-            android:text="€"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/expenseDetailCost"
-            android:layout_toStartOf="@+id/expenseDetailCost"
-            android:layout_marginRight="2dp"
-            android:textColor="@android:color/holo_green_dark"
-            android:layout_marginEnd="2dp"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            />
-        <TextView
-            android:id="@+id/expenseDetailCost"
+            android:id="@+id/balanceDetailOwes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="25"
+            android:text="owes"
+            android:layout_marginTop="24dp"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/balanceDetailSender"
+            android:layout_toEndOf="@+id/balanceDetailSender"/>
+
+        <TextView
+            android:id="@+id/balanceDetailRecipient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/balanceDetailOwes"
+            android:layout_toEndOf="@+id/balanceDetailOwes"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="23dp"
+            android:text="B"
+            android:textColor="@color/colorTextMain"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+
+
+        <TextView
+            android:id="@+id/balanceDetailAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="40$"
             android:layout_marginTop="20dp"
             android:textColor="@android:color/holo_green_dark"
             android:textSize="20sp"

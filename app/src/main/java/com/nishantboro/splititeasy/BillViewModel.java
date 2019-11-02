@@ -37,4 +37,8 @@ public class BillViewModel extends AndroidViewModel {
     public LiveData<List<BillEntity>> getAllBills() {
         return allBills;
     }
+
+    public List<BillEntity> getAllMemberBills(String gName, int mid) {
+        return repository.getAllBillsForMember(gName, mid);
+    }
 }

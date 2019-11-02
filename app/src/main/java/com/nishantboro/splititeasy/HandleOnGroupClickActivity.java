@@ -1,10 +1,14 @@
 package com.nishantboro.splititeasy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+
 import com.google.android.material.tabs.TabLayout;
 
 public class HandleOnGroupClickActivity extends AppCompatActivity {
@@ -20,10 +24,12 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout_id);
         ViewPager viewPager = findViewById(R.id.viewpager_id);
-        Toolbar toolbar = findViewById(R.id.addNewGroupToolbar);
+        Toolbar toolbar = findViewById(R.id.handleOnGroupClickToolbar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
+        setTitle(gName);
 
         AddNewGroupFragmentsViewAdapter adapter = new AddNewGroupFragmentsViewAdapter(getSupportFragmentManager(),0);
         adapter.addFragment(new MembersTabFragment(gName),"Members");
@@ -32,5 +38,14 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

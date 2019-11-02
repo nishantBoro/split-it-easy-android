@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar"
-        android:id="@+id/addNewGroupToolbar"/>
+        android:id="@+id/handleOnGroupClickToolbar"/>
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
         app:tabMode="fixed"
         android:id="@+id/tablayout_id"
         app:tabTextColor="@color/tabTextColor"
-        app:tabIndicatorColor="@color/tabIndicatorColor"
-        android:background="@color/colorPrimary">
+        app:tabIndicatorColor="@color/tabTextColor"
+        android:background="@color/colorPrimaryDark">
 
     </com.google.android.material.tabs.TabLayout>
 

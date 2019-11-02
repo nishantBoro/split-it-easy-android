@@ -2,8 +2,12 @@ package com.nishantboro.splititeasy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +23,12 @@ public class GroupListActivity extends AppCompatActivity implements GroupListAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_list_activity);
+
+        // set toolbar
+        Toolbar toolbar = findViewById(R.id.groupListToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Groups");
 
         // prepare recycler view
         RecyclerView recyclerView = findViewById(R.id.group_list_recycler_view);
@@ -51,5 +61,12 @@ public class GroupListActivity extends AppCompatActivity implements GroupListAct
         Intent intent = new Intent(this,HandleOnGroupClickActivity.class);
         intent.putExtra(EXTRA_TEXT_GNAME,gName);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // only option in toolbar is backButton so run finish()
+        finish();
+        return true;
     }
 }

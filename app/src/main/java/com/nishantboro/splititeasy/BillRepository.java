@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillRepository {
@@ -37,6 +38,31 @@ public class BillRepository {
         return allBills;
     }
 
+    public List<BillEntity> getAllBillsForMember(String gName, int mid) {
+        GetAllBillsForMemberAsyncParams params = new GetAllBillsForMemberAsyncParams(gName,mid);
+        GetAllBillsForMember bills = new GetAllBillsForMember(billDao);
+        try {
+            return bills.execute(params).get();
+        } catch (Exception anyError) {
+            return new ArrayList<>();
+        }
+    }
+
+
+
+    private static class GetAllBillsForMember extends AsyncTask<GetAllBillsForMemberAsyncParams,Void,List<BillEntity>> {
+        private BillDao billDao;
+
+        private GetAllBillsForMember(BillDao billDao) {
+            this.billDao = billDao;
+        }
+
+
+        @Override
+        protected List<BillEntity> doInBackground(GetAllBillsForMemberAsyncParams... getAllBillsForMemberAsyncParams) {
+            return billDao.getAllMemberBills(getAllBillsForMemberAsyncParams[0].gName,getAllBillsForMemberAsyncParams[0].mid);
+        }
+    }
 
     private static class InsertBillAsyncTask extends AsyncTask<BillEntity,Void,Void> {
         private BillDao billDao;

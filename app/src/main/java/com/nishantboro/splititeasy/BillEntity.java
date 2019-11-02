@@ -2,11 +2,19 @@ package com.nishantboro.splititeasy;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = MemberEntity.class,
+parentColumns = "Id",
+childColumns = "MemberId",
+onDelete = ForeignKey.CASCADE,
+onUpdate = ForeignKey.CASCADE),
+indices = {@Index(name="MemberIdIndex",value = {"MemberId"})})
 public class BillEntity {
-    BillEntity(String item, String cost, String currency, String gName,String paidBy) {
+    BillEntity(int mid, String item, String cost, String currency, String gName,String paidBy) {
+        this.mid = mid;
         this.item = item;
         this.cost = cost;
         this.currency = currency;
@@ -14,7 +22,11 @@ public class BillEntity {
         this.paidBy = paidBy;
     }
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    @ColumnInfo(name = "Id")
+    public int id;
+
+    @ColumnInfo(name = "MemberId")
+    public int mid;
 
     @ColumnInfo(name = "Item")
     public String item;
