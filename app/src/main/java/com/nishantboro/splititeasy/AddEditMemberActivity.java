@@ -33,12 +33,11 @@ public class AddEditMemberActivity extends AppCompatActivity {
 
         if(this.requestCode == 1) {
             // prevent duplicate member names
-            
+
 
 
             // store the name in database
             memberViewModel.insert(new MemberEntity(name,gName));
-            return;
         }
 
         if(this.requestCode == 2) {

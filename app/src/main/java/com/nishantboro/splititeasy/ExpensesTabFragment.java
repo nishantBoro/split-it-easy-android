@@ -74,14 +74,32 @@ public class ExpensesTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(!ExpensesTabFragment.this.members.isEmpty()) {
-                    Intent intent = new Intent(getActivity(),AddBillActivity.class);
+                    Intent intent = new Intent(getActivity(), AddEditBillActivity.class);
                     intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,gName);
-                    getActivity().startActivity(intent);
+                    intent.putExtra("requestCode",1);
+                    ExpensesTabFragment.this.getActivity().startActivityFromFragment(ExpensesTabFragment.this,intent,1);
                 } else {
                     Toast.makeText(ExpensesTabFragment.this.getActivity(), "No members found. Please add some members.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        this.adapter.setOnItemClickListener(new ExpensesTabViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BillEntity bill) {
+                Intent intent = new Intent(ExpensesTabFragment.this.getActivity(), AddEditBillActivity.class);
+                intent.putExtra("billId",bill.id);
+                intent.putExtra("billPaidBy",bill.paidBy);
+                intent.putExtra("billCost",bill.cost);
+                intent.putExtra("billMemberId",bill.mid);
+                intent.putExtra("billName",bill.item); //
+                intent.putExtra("billCurrency",bill.currency);
+                intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,bill.gName);
+                intent.putExtra("requestCode",2);
+                ExpensesTabFragment.this.getActivity().startActivityFromFragment(ExpensesTabFragment.this,intent,2);
+            }
+        });
+
         return view;
     }
 

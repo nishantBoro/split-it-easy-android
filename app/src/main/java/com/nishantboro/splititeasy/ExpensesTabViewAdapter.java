@@ -5,6 +5,7 @@ package com.nishantboro.splititeasy;
 
 import android.app.Application;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,7 @@ import java.util.List;
 
 
 public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabViewAdapter.ExpenseDetailViewHolder> {
-
+    private OnItemClickListener listener;
     private List<BillEntity> list = new ArrayList<>();
     public boolean multiSelect = false;
     public List<BillEntity> selectedItems = new ArrayList<>();
@@ -138,10 +139,23 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
     // Bind the data in ExpenseList[position] to the holder created by Layout manager
     @Override
     public void onBindViewHolder(@NonNull ExpenseDetailViewHolder holder, int position) {
-        holder.textViewItem.setText(list.get(position).item);
-        holder.textViewCost.setText(list.get(position).cost);
-        holder.textViewCurrency.setText(list.get(position).currency);
+        holder.textViewItem.setText(this.list.get(position).item);
+        holder.textViewCost.setText(this.list.get(position).cost);
+
+        String curr = this.list.get(position).currency;
+        holder.textViewCurrency.setText(Character.toString(curr.charAt(5)));
         holder.update(this.list.get(position));
+
+        final int pos = position;
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ExpensesTabViewAdapter.this.listener != null) {
+                    ExpensesTabViewAdapter.this.listener.onItemClick(ExpensesTabViewAdapter.this.list.get(pos));
+                }
+            }
+        });
     }
 
     @Override
@@ -157,6 +171,14 @@ public class ExpensesTabViewAdapter extends RecyclerView.Adapter<ExpensesTabView
     public void deleteFromDatabase(BillEntity bill) {
         BillViewModel billViewModel = ViewModelProviders.of(ExpensesTabViewAdapter.this.thisOfExpenseFragment,new BillViewModelFactory(ExpensesTabViewAdapter.this.application,ExpensesTabViewAdapter.this.gName)).get(BillViewModel.class);
         billViewModel.delete(bill);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(BillEntity bill);
+    }
+
+    public void setOnItemClickListener(ExpensesTabViewAdapter.OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 }

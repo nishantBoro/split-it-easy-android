@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="0dp"
-    tools:context=".AddBillActivity">
+    tools:context=".AddEditBillActivity">
 
     <include layout="@layout/toolbar"
         android:id="@+id/addBillToolbar"/>

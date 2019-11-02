@@ -14,6 +14,7 @@ public interface MemberDao {
     @Query("SELECT * FROM memberentity WHERE GroupName= :gName")
     LiveData<List<MemberEntity>> getAll(String gName);
 
+
     @Insert
     void insert(MemberEntity member);
 

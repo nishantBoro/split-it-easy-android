@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MemberRepository {
@@ -36,6 +37,7 @@ public class MemberRepository {
     public LiveData<List<MemberEntity>> getAllMembers() {
         return allMembers;
     }
+
 
     private static class InsertMemberAsyncTask extends AsyncTask<MemberEntity,Void,Void> {
         private MemberDao memberDao;

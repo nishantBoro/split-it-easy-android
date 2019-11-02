@@ -12,7 +12,7 @@
         <activity android:name=".AddEditMemberActivity"/>
         <activity android:name=".HandleOnGroupClickActivity" />
         <activity android:name=".GroupListActivity" />
-        <activity android:name=".AddBillActivity" />
+        <activity android:name=".AddEditBillActivity" />
         <activity android:name=".CreateNewGroupActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -37,4 +37,5 @@ public class MemberViewModel extends AndroidViewModel {
     public LiveData<List<MemberEntity>> getAllMembers() {
         return allMembers;
     }
+
 }
