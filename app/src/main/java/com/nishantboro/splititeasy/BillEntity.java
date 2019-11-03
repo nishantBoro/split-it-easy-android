@@ -6,12 +6,23 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = MemberEntity.class,
-parentColumns = "Id",
-childColumns = "MemberId",
-onDelete = ForeignKey.CASCADE,
-onUpdate = ForeignKey.CASCADE),
-indices = {@Index(name="MemberIdIndex",value = {"MemberId"})})
+@Entity(foreignKeys = {
+        @ForeignKey(entity = MemberEntity.class,
+            parentColumns = "Id",
+            childColumns = "MemberId",
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        ),
+        @ForeignKey(entity = GroupEntity.class,
+            parentColumns = "GroupName",
+            childColumns = "GroupName",
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )},
+        indices = {
+                @Index(name="MemberIdIndex",value = {"MemberId"}),
+                @Index(name="GroupNameIndexBill",value = {"GroupName"})
+        })
 public class BillEntity {
     BillEntity(int mid, String item, String cost, String currency, String gName,String paidBy) {
         this.mid = mid;

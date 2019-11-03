@@ -2,8 +2,10 @@ package com.nishantboro.splititeasy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GroupListActivity extends AppCompatActivity implements GroupListActivityViewAdapter.OnGroupListener {
+public class GroupListActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT_GNAME = "com.nishantboro.splititeasy.EXTRA_TEXT_GNAME";
     private List<GroupEntity> groupNames = new ArrayList<>();
+    private GroupListActivityViewAdapter adapter;
+    private GroupViewModel groupViewModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +39,12 @@ public class GroupListActivity extends AppCompatActivity implements GroupListAct
         RecyclerView recyclerView = findViewById(R.id.group_list_recycler_view);
         recyclerView.setHasFixedSize(true);
         // second parameter -> attach this activity as a listener to every item in the group list
-        final GroupListActivityViewAdapter adapter = new GroupListActivityViewAdapter(this);
+        adapter = new GroupListActivityViewAdapter(GroupListActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         // if data in database(Group) changes, call the onChanged() below
-        GroupViewModel groupViewModel = ViewModelProviders.of(this).get(GroupViewModel.class);
+        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel.class);
         groupViewModel.getAllGroups().observe(this, new Observer<List<GroupEntity>>() {
             @Override
             public void onChanged(List<GroupEntity> groupEntities) {
@@ -49,24 +54,55 @@ public class GroupListActivity extends AppCompatActivity implements GroupListAct
                 adapter.saveToList(groupEntities);
             }
         });
+
+        adapter.setOnItemClickListener(new GroupListActivityViewAdapter.OnGroupClickListener() {
+            @Override
+            public void onGroupClick(int position) {
+                // get group name of the item the user clicked on from groupNames array
+                String gName = groupNames.get(position).gName;
+
+                // create an intent to launch the HandleOnGroupClickActivity, pass the gName along
+                Intent intent = new Intent(GroupListActivity.this,HandleOnGroupClickActivity.class);
+                intent.putExtra(EXTRA_TEXT_GNAME,gName);
+                startActivity(intent);
+            }
+        });
     }
 
-    // run this when an item in the group list is clicked
     @Override
-    public void onGroupClick(int position) {
-        // get group name of the item the user clicked on from groupNames array
-        String gName = groupNames.get(position).gName;
-
-        // create an intent to launch the HandleOnGroupClickActivity, pass the gName along
-        Intent intent = new Intent(this,HandleOnGroupClickActivity.class);
-        intent.putExtra(EXTRA_TEXT_GNAME,gName);
-        startActivity(intent);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.group_list_menu,menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // only option in toolbar is backButton so run finish()
-        finish();
-        return true;
+
+        switch (item.getItemId()) {
+            case R.id.deleteAllGroups:
+                if(!this.groupNames.isEmpty()) {
+                    this.groupViewModel.deleteAll();
+                    Toast.makeText(this, "All Groups Deleted", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                Toast.makeText(this, "Nothing To Delete", Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
+            default:
+                // finish if user clicks on back button
+                finish();
+                return true;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if(this.adapter.multiSelect) {
+            this.adapter.actionMode.finish();
+            this.adapter.multiSelect = false;
+            this.adapter.selectedItems.clear();
+            this.adapter.notifyDataSetChanged();
+        }
+        super.onPause();
     }
 }

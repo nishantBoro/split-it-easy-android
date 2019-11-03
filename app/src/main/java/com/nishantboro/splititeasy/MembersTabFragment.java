@@ -106,12 +106,12 @@ public class MembersTabFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.deleteAllMembers:
-                if(!MembersTabFragment.this.members.isEmpty()) {
-                    MembersTabFragment.this.memberViewModel.deleteAll(this.gName);
-                    Toast.makeText(MembersTabFragment.this.getActivity(), "All Members Deleted", Toast.LENGTH_SHORT).show();
+                if(!this.members.isEmpty()) {
+                    this.memberViewModel.deleteAll(this.gName);
+                    Toast.makeText(this.getActivity(), "All Members Deleted", Toast.LENGTH_SHORT).show();
                     return true;
                 }
-                Toast.makeText(MembersTabFragment.this.getActivity(), "Nothing To Delete", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Nothing To Delete", Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);

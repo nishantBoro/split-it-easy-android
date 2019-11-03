@@ -2,9 +2,18 @@ package com.nishantboro.splititeasy;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = GroupEntity.class,
+        parentColumns = "GroupName",
+        childColumns = "GroupName",
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE),
+        indices = {
+            @Index(name="GroupNameIndexMember",value = {"GroupName"})
+        })
 public class MemberEntity {
     MemberEntity(String name, String gName) {
         this.name = name;

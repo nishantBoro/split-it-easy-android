@@ -9,6 +9,7 @@
     app:cardCornerRadius="7dp">
 
     <RelativeLayout
+        android:id="@+id/groupListDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

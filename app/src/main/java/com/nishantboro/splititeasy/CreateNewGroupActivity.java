@@ -42,7 +42,7 @@ public class CreateNewGroupActivity extends AppCompatActivity {
         }
 
         // else store the group name in database
-        groupViewModel.insert(new GroupEntity(name));
+        groupViewModel.insert(group);
         Toast.makeText(this, "Group created successfully", Toast.LENGTH_SHORT).show();
     }
 
