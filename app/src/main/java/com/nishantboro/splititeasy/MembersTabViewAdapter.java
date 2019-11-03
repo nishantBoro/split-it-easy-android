@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -74,11 +75,13 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
     class MemberDetailViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
         private RelativeLayout relativeLayout;
+        private ImageView imageView;
 
         MemberDetailViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textView = itemView.findViewById(R.id.memberDetailName); // get the textView View component from member_detail.xml and attach it to our holder
             this.relativeLayout = itemView.findViewById(R.id.memberDetail);
+            this.imageView = itemView.findViewById(R.id.memberDetailAvatar);
         }
 
         void update(final MemberEntity member) {
@@ -129,6 +132,7 @@ public class MembersTabViewAdapter extends RecyclerView.Adapter<MembersTabViewAd
     public void onBindViewHolder(@NonNull MemberDetailViewHolder holder, int position) {
         final MemberDetailViewHolder hold = holder;
         holder.textView.setText(this.list.get(position).name);
+        holder.imageView.setImageResource(this.list.get(position).mAvatar);
         holder.update(this.list.get(position));
 
         final int pos = position;

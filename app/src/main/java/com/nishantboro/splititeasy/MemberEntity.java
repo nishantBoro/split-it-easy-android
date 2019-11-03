@@ -20,7 +20,14 @@ public class MemberEntity {
     @ColumnInfo(name = "MemberName")
     public String name;
 
+    @ColumnInfo(name = "MemberAvatar")
+    public int mAvatar;
+
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setMAvatar(int mAvatar) {
+        this.mAvatar = mAvatar;
     }
 }

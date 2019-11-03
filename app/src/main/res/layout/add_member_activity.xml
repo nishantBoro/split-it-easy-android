@@ -9,6 +9,13 @@
     <include layout="@layout/toolbar"
         android:id="@+id/addMemberToolbar"/>
 
+    <Spinner
+        android:id="@+id/addMemberActivityAvatarSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"/>
+
     <EditText
         android:id="@+id/addMemberNameText"
         android:layout_width="match_parent"

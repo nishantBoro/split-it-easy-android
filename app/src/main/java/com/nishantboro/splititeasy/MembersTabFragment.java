@@ -87,6 +87,7 @@ public class MembersTabFragment extends Fragment {
                 Intent intent = new Intent(MembersTabFragment.this.getActivity(), AddEditMemberActivity.class);
                 intent.putExtra(MembersTabFragment.EXTRA_TEXT,member.name);
                 intent.putExtra("requestCode",EDIT_MEMBER_REQUEST);
+                intent.putExtra("avatarResource",member.mAvatar);
                 intent.putExtra(MembersTabFragment.EXTRA_ID,member.id);
                 intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,MembersTabFragment.this.gName);
                 MembersTabFragment.this.getActivity().startActivityFromFragment(MembersTabFragment.this,intent,EDIT_MEMBER_REQUEST);

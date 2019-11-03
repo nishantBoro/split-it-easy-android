@@ -212,6 +212,7 @@ public class AddEditBillActivity extends AppCompatActivity implements AdapterVie
                 this.memberId = member.id;
                 Toast.makeText(parent.getContext(),this.paidBy,Toast.LENGTH_SHORT).show();
                 break;
+            default:break;
         }
     }
 
