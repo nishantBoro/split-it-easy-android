@@ -3,30 +3,45 @@ package com.nishantboro.splititeasy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
+
 public class CreateNewGroupActivity extends AppCompatActivity {
     private EditText editText;
     private GroupViewModel groupViewModel;
 
     private void saveGroup() {
-        String name = editText.getText().toString();
+        final String name = editText.getText().toString();
 
         // check if the name is empty
         if (name.trim().isEmpty()) {
             Toast.makeText(this, "Please enter a valid name", Toast.LENGTH_SHORT).show();
             return;
         }
-        // take care no duplicate group name is inserted here
 
-        // store the group name in database
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel.class);
+        GroupEntity group = new GroupEntity(name);
+
+        // if database already contains group name return and do not save
+        List<GroupEntity> groups = groupViewModel.getAllGroupsNonLiveData();
+        for(GroupEntity item:groups) {
+            if(item.gName.equals(group.gName)) {
+                Toast.makeText(this, "Group already exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        // else store the group name in database
         groupViewModel.insert(new GroupEntity(name));
         Toast.makeText(this, "Group created successfully", Toast.LENGTH_SHORT).show();
     }

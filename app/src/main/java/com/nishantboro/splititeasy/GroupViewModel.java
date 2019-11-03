@@ -37,4 +37,8 @@ public class GroupViewModel extends AndroidViewModel {
     public LiveData<List<GroupEntity>> getAllGroups() {
         return allGroups;
     }
+
+    public List<GroupEntity> getAllGroupsNonLiveData() {
+        return repository.getAllGroupsNonLive();
+    }
 }

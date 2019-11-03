@@ -14,6 +14,9 @@ public interface GroupDao {
     @Query("SELECT * FROM groupentity")
     LiveData<List<GroupEntity>> getAll();
 
+    @Query("SELECT * FROM groupentity")
+    List<GroupEntity> getAllNonLive();
+
     @Insert
     void insert(GroupEntity member);
 
