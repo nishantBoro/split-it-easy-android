@@ -2,7 +2,6 @@ package com.nishantboro.splititeasy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,17 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MembersTabFragment extends Fragment {
-    private String gName;
-    private static final int ADD_MEMBER_REQUEST = 1;
-    private static final int EDIT_MEMBER_REQUEST = 2;
-    public static final String EXTRA_TEXT = "com.nishantboro.splititeasy.EXTRA_TEXT";
-    public static final String EXTRA_ID = "com.nishantboro.splititeasy.EXTRA_ID";
-    public static final String EXTRA_TEXT_TWO = "com.nishantboro.splititeasy.EXTRA_TEXT_TWO";
-    public static final String EXTRA_TEXT_THREE = "com.nishantboro.splititeasy.EXTRA_TEXT_THREE";
+    private String gName; // group name
     private MemberViewModel memberViewModel;
     private MembersTabViewAdapter adapter;
-    private List<MemberEntity> members = new ArrayList<>();
-    public MembersTabFragment(String gName) {
+    private List<MemberEntity> members = new ArrayList<>(); // maintain a list of all the existing members of the group from the database
+
+    MembersTabFragment(String gName) {
         this.gName = gName;
     }
 
@@ -45,52 +39,59 @@ public class MembersTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("x", "onCreateView() called of members");
         View view = inflater.inflate(R.layout.members_fragment,container,false);
 
-        // prepare recycler view
+        // prepare recycler view for displaying all members of the group
         RecyclerView recyclerView = view.findViewById(R.id.membersRecyclerView);
         recyclerView.setHasFixedSize(true);
-        this.adapter = new MembersTabViewAdapter(this.gName,this.getActivity().getApplication(),this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        if(getActivity() != null) {
+            adapter = new MembersTabViewAdapter(gName,getActivity().getApplication(),this);
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        // if data in database(Member) changes, call the onChanged() below
-        memberViewModel = ViewModelProviders.of(this,new MemberViewModelFactory(this.getActivity().getApplication(),this.gName)).get(MemberViewModel.class);
+        // if data in database(MemberEntity) changes, call the onChanged() below and recreate recycler view
+        memberViewModel = ViewModelProviders.of(this,new MemberViewModelFactory(getActivity().getApplication(),gName)).get(MemberViewModel.class);
         memberViewModel.getAllMembers().observe(this, new Observer<List<MemberEntity>>() {
             @Override
             public void onChanged(List<MemberEntity> memberEntities) {
-                // Recreate the recycler view by notifying adapter with the changes
-                Log.d("x", "called inside onChanged of members");
-                MembersTabFragment.this.adapter.storeToList(memberEntities);
-                MembersTabFragment.this.members = memberEntities;
+                adapter.storeToList(memberEntities); // Recreate the recycler view by passing the new List<MemberEntity> to the adapter
+                members = memberEntities;
             }
         });
 
 
         // Implement Add new member function
-        FloatingActionButton addFloating = view.findViewById(R.id.membersFragmentAdd);
+        FloatingActionButton addFloating = view.findViewById(R.id.membersFragmentAdd); // floating button for add new member
         addFloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // create an add member intent
                 Intent intent = new Intent(getActivity(), AddEditMemberActivity.class);
-                intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,MembersTabFragment.this.gName);
-                intent.putExtra("requestCode",ADD_MEMBER_REQUEST);
-                MembersTabFragment.this.getActivity().startActivityFromFragment(MembersTabFragment.this,intent,ADD_MEMBER_REQUEST);
+                intent.putExtra("groupName",gName);
+                intent.putExtra("requestCode",1); // using requestCode(value = 1) to identify add member intent
+                if(getActivity() != null) {
+                    getActivity().startActivityFromFragment(MembersTabFragment.this,intent,1);
+                }
             }
         });
 
-        this.adapter.setOnItemClickListener(new MembersTabViewAdapter.OnItemClickListener() {
+        // implement edit member intent
+        // create new MembersTabViewAdapter.OnItemClickListener interface object and pass it as a parameter to MembersTabViewAdapter.setOnItemClickListener method
+        adapter.setOnItemClickListener(new MembersTabViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MemberEntity member) {
-                Log.d("click", "you clicked at the right");
-                Intent intent = new Intent(MembersTabFragment.this.getActivity(), AddEditMemberActivity.class);
-                intent.putExtra(MembersTabFragment.EXTRA_TEXT,member.name);
-                intent.putExtra("requestCode",EDIT_MEMBER_REQUEST);
+                // create an edit member intent
+                Intent intent = new Intent(getActivity(), AddEditMemberActivity.class);
+                intent.putExtra("memberName",member.name);
+                intent.putExtra("requestCode",2); // // using requestCode(value = 2) to identify edit member intent
                 intent.putExtra("avatarResource",member.mAvatar);
-                intent.putExtra(MembersTabFragment.EXTRA_ID,member.id);
-                intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,MembersTabFragment.this.gName);
-                MembersTabFragment.this.getActivity().startActivityFromFragment(MembersTabFragment.this,intent,EDIT_MEMBER_REQUEST);
+                intent.putExtra("memberId",member.id);
+                intent.putExtra("groupName",gName);
+
+                if(getActivity() != null) {
+                    getActivity().startActivityFromFragment(MembersTabFragment.this,intent,2); // launch the intent
+                }
             }
         });
 
@@ -104,27 +105,28 @@ public class MembersTabFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deleteAllMembers:
-                if(!this.members.isEmpty()) {
-                    this.memberViewModel.deleteAll(this.gName);
-                    Toast.makeText(this.getActivity(), "All Members Deleted", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                Toast.makeText(this.getActivity(), "Nothing To Delete", Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
-            default:
-                return super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.deleteAllMembers) {
+            if(!this.members.isEmpty()) { // condition prevents initiating a deleteAll operation if there are no members to delete
+                this.memberViewModel.deleteAll(this.gName);
+                Toast.makeText(getActivity(), "All Members Deleted", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            Toast.makeText(getActivity(), "Nothing To Delete", Toast.LENGTH_SHORT).show();
+            return super.onOptionsItemSelected(item);
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
     public void onPause() {
-        if(this.adapter.multiSelect) {
-            this.adapter.actionMode.finish();
-            this.adapter.multiSelect = false;
-            this.adapter.selectedItems.clear();
-            this.adapter.notifyDataSetChanged();
+        // close ActionMode if the user decides to leave the fragment while multiSelect is ON
+        if(adapter.multiSelect) {
+            adapter.actionMode.finish();
+            adapter.multiSelect = false;
+            adapter.selectedItems.clear();
+            adapter.notifyDataSetChanged();
         }
         super.onPause();
     }

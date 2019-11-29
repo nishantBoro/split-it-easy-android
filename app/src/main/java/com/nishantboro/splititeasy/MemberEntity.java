@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+// Column "GroupName" has a foreign key reference to column "GroupName" of GroupEntity
 @Entity(foreignKeys = @ForeignKey(entity = GroupEntity.class,
         parentColumns = "GroupName",
         childColumns = "GroupName",
@@ -30,13 +31,13 @@ public class MemberEntity {
     public String name;
 
     @ColumnInfo(name = "MemberAvatar")
-    public int mAvatar;
+    int mAvatar;
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setMAvatar(int mAvatar) {
+    void setMAvatar(int mAvatar) {
         this.mAvatar = mAvatar;
     }
 }

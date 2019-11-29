@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="105dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="6dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="7dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,63 +16,87 @@
 
         <TextView
             android:id="@+id/balanceDetailSender"
+            android:maxWidth="180dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="23dp"
-            android:text="A"
+            android:layout_marginTop="27dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:text="Nishant Boro"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/colorTextMain"
-            android:textSize="23sp"
+            android:textSize="19sp"
             android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/balanceDetailOwes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="owes"
-            android:layout_marginTop="24dp"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_toRightOf="@+id/balanceDetailSender"
-            android:layout_toEndOf="@+id/balanceDetailSender"/>
+            android:layout_toEndOf="@+id/balanceDetailSender"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="27dp"
+            android:text="owes"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="19sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/balanceDetailRecipient"
+            android:maxWidth="180dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/balanceDetailOwes"
             android:layout_toEndOf="@+id/balanceDetailOwes"
-            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="23dp"
-            android:text="B"
+            android:text="Diksha Boro"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginTop="27dp"
             android:textColor="@color/colorTextMain"
-            android:textSize="23sp"
+            android:textSize="19sp"
             android:textStyle="bold" />
 
-
+        <View
+            android:layout_width="400dp"
+            android:layout_height="1dp"
+            android:layout_alignTop="@+id/balanceDetailSender"
+            android:layout_marginTop="49dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:background="@color/lightGray"/>
 
         <TextView
             android:id="@+id/balanceDetailAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="40$"
-            android:layout_marginTop="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/balanceDetailSender"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="49dp"
+            android:text="$ 400,000"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@android:color/holo_green_dark"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

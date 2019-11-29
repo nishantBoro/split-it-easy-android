@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="0dp"
-    tools:context=".CreateNewGroupActivity">
+    tools:context=".CreateNewGroupActivity"
+    tools:ignore="HardcodedText">
 
     <include layout="@layout/toolbar"
         android:id="@+id/createNewGroupToolbar"/>
@@ -14,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter group name"
+        android:importantForAutofill="no"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"

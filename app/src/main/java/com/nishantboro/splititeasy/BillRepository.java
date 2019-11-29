@@ -12,7 +12,7 @@ public class BillRepository {
     private BillDao billDao;
     private LiveData<List<BillEntity>> allBills;
 
-    public BillRepository(Application application, String gName) {
+    BillRepository(Application application, String gName) {
         AppDatabase database = AppDatabase.getInstance(application);
         billDao = database.billDao();
         allBills = billDao.getAll(gName);
@@ -34,11 +34,11 @@ public class BillRepository {
         new DeleteAllAsyncTask(billDao).execute(gName);
     }
 
-    public LiveData<List<BillEntity>> getAllBills() {
+    LiveData<List<BillEntity>> getAllBills() {
         return allBills;
     }
 
-    public List<BillEntity> getAllBillsForMember(String gName, int mid) {
+    List<BillEntity> getAllBillsForMember(String gName, int mid) {
         GetAllBillsForMemberAsyncParams params = new GetAllBillsForMemberAsyncParams(gName,mid);
         GetAllBillsForMember bills = new GetAllBillsForMember(billDao);
         try {

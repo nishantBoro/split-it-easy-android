@@ -17,6 +17,12 @@ public interface GroupDao {
     @Query("SELECT * FROM groupentity")
     List<GroupEntity> getAllNonLive();
 
+    @Query("SELECT GroupCurrency FROM groupentity WHERE GroupName= :gName")
+    LiveData<String> getGroupCurrency(String gName);
+
+    @Query("SELECT GroupCurrency FROM groupentity WHERE GroupName= :gName")
+    String getGroupCurrencyNonLive(String gName);
+
     @Insert
     void insert(GroupEntity member);
 

@@ -2,7 +2,6 @@ package com.nishantboro.splititeasy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,14 +20,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ExpensesTabFragment extends Fragment {
-    private String gName;
-    private List<MemberEntity> members = new ArrayList<>();
-    private List<BillEntity> bills = new ArrayList<>();
+    private String gName; // group name
+    private List<BillEntity> bills = new ArrayList<>(); // maintain a list of all the existing bills of the group from the database
+    private List<MemberEntity> members = new ArrayList<>(); // maintain a list of all the existing members of the group from the database
     private BillViewModel billViewModel;
     private ExpensesTabViewAdapter adapter;
-    public ExpensesTabFragment(String gName) {this.gName = gName;}
+    private StringBuilder currency = new StringBuilder();
+
+    ExpensesTabFragment(String gName) {
+        this.gName = gName;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,65 +40,79 @@ public class ExpensesTabFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // retrieve bills from database
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expenses_fragment,container,false);
+
+        // prepare recycler view for displaying all expenses of the group
         RecyclerView recyclerView = view.findViewById(R.id.expensesRecyclerView);
         recyclerView.setHasFixedSize(true);
-        ExpensesTabFragment.this.adapter = new ExpensesTabViewAdapter(gName,this.getActivity().getApplication(),this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        if(getActivity() != null) {
+            adapter = new ExpensesTabViewAdapter(gName, getActivity().getApplication(), this);
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        Log.d("y", "on createView called of expenses()");
-
-        // if data in database(Bill) changes, call the onChanged() below
-        billViewModel = ViewModelProviders.of(this,new BillViewModelFactory(this.getActivity().getApplication(),this.gName)).get(BillViewModel.class);
+        // if data in database(BillEntity) changes, call the onChanged() below
+        billViewModel = ViewModelProviders.of(this,new BillViewModelFactory(getActivity().getApplication(),gName)).get(BillViewModel.class);
         billViewModel.getAllBills().observe(this, new Observer<List<BillEntity>>() {
             @Override
             public void onChanged(List<BillEntity> billEntities) {
-                Log.d("y", "inside of onchanged expenses");
-                ExpensesTabFragment.this.adapter.storeToList(billEntities);
-                ExpensesTabFragment.this.bills = billEntities;
+                GroupViewModel groupViewModel = ViewModelProviders.of(ExpensesTabFragment.this).get(GroupViewModel.class);
+                // get latest currency picked by the user
+                currency.setLength(0); // delete previous currency
+                currency.append(groupViewModel.getGroupCurrencyNonLive(gName));
+
+                adapter.storeToList(billEntities, currency.toString()); // Recreate the recycler view by passing the new List<BillEntity> and currency to the adapter
+                bills = billEntities;
             }
         });
 
-        MemberViewModel memberViewModel = ViewModelProviders.of(this,new MemberViewModelFactory(this.getActivity().getApplication(),this.gName)).get(MemberViewModel.class);
+        // get all the existing members from the database
+        MemberViewModel memberViewModel = ViewModelProviders.of(this,new MemberViewModelFactory(getActivity().getApplication(),gName)).get(MemberViewModel.class);
         memberViewModel.getAllMembers().observe(this, new Observer<List<MemberEntity>>() {
             @Override
             public void onChanged(List<MemberEntity> memberEntities) {
-                ExpensesTabFragment.this.members = memberEntities;
+                members = memberEntities;
             }
         });
 
-        // Implement Add new member function
+        // Implement Add new expense function
         FloatingActionButton addFloating = view.findViewById(R.id.expensesFragmentAdd);
         addFloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!ExpensesTabFragment.this.members.isEmpty()) {
+                // create an add expense intent
+                if(!members.isEmpty() && getActivity() != null) { // condition prevents launching an add bill activity if there are no existing members of the group
                     Intent intent = new Intent(getActivity(), AddEditBillActivity.class);
                     intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,gName);
-                    intent.putExtra("requestCode",1);
-                    ExpensesTabFragment.this.getActivity().startActivityFromFragment(ExpensesTabFragment.this,intent,1);
+                    intent.putExtra("groupCurrency", currency.toString());
+                    intent.putExtra("requestCode",1); // using requestCode(value = 1) to identify add expense intent
+                    getActivity().startActivityFromFragment(ExpensesTabFragment.this,intent,1);
                 } else {
-                    Toast.makeText(ExpensesTabFragment.this.getActivity(), "No members found. Please add some members.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No members found. Please add some members.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        this.adapter.setOnItemClickListener(new ExpensesTabViewAdapter.OnItemClickListener() {
+        // implement edit expense function
+        // create new ExpensesTabViewAdapter.OnItemClickListener interface object and pass it as a parameter to ExpensesTabViewAdapter.setOnItemClickListener method
+        adapter.setOnItemClickListener(new ExpensesTabViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BillEntity bill) {
-                Intent intent = new Intent(ExpensesTabFragment.this.getActivity(), AddEditBillActivity.class);
+                // create an edit expense intent
+                Intent intent = new Intent(getActivity(), AddEditBillActivity.class);
                 intent.putExtra("billId",bill.id);
                 intent.putExtra("billPaidBy",bill.paidBy);
                 intent.putExtra("billCost",bill.cost);
                 intent.putExtra("billMemberId",bill.mid);
-                intent.putExtra("billName",bill.item); //
-                intent.putExtra("billCurrency",bill.currency);
+                intent.putExtra("billName",bill.item);
+                intent.putExtra("groupCurrency", currency.toString());
                 intent.putExtra(GroupListActivity.EXTRA_TEXT_GNAME,bill.gName);
-                intent.putExtra("requestCode",2);
-                ExpensesTabFragment.this.getActivity().startActivityFromFragment(ExpensesTabFragment.this,intent,2);
+                intent.putExtra("requestCode",2); // using requestCode(value = 2) to identify edit expense intent
+
+                if(getActivity() != null) {
+                    getActivity().startActivityFromFragment(ExpensesTabFragment.this, intent, 2); // launch the intent
+                }
             }
         });
 
@@ -110,27 +126,26 @@ public class ExpensesTabFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deleteAllBills:
-                if(!ExpensesTabFragment.this.bills.isEmpty()) {
-                    ExpensesTabFragment.this.billViewModel.deleteAll(this.gName);
-                    Toast.makeText(ExpensesTabFragment.this.getActivity(), "All Expenses Deleted", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                Toast.makeText(ExpensesTabFragment.this.getActivity(), "Nothing To Delete", Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
-            default:
-                return super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.deleteAllBills) {
+            if(!bills.isEmpty()) { // condition prevents initiating a deleteAll operation if there are no bills to delete
+                billViewModel.deleteAll(gName);
+                Toast.makeText(getActivity(), "All Expenses Deleted", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            Toast.makeText(getActivity(), "Nothing To Delete", Toast.LENGTH_SHORT).show();
+            return super.onOptionsItemSelected(item);
         }
+            return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onPause() {
-        if(this.adapter.multiSelect) {
-            this.adapter.actionMode.finish();
-            this.adapter.multiSelect = false;
-            this.adapter.selectedItems.clear();
-            this.adapter.notifyDataSetChanged();
+        // close ActionMode if the user decides to leave the fragment while multiSelect is ON
+        if(adapter.multiSelect) {
+            adapter.actionMode.finish();
+            adapter.multiSelect = false;
+            adapter.selectedItems.clear();
+            adapter.notifyDataSetChanged();
         }
         super.onPause();
     }

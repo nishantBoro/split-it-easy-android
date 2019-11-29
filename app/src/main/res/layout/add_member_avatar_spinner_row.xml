@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/addMemberAvatarSpinnerImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/member" />
+        android:padding="10dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/member"
+        android:contentDescription="avatar"/>
 
 
 </RelativeLayout>

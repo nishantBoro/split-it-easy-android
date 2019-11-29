@@ -2,17 +2,17 @@ package com.nishantboro.splititeasy;
 
 import android.app.Application;
 import android.os.AsyncTask;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.ArrayList;
 import java.util.List;
+/* Use AsyncTask to perform operations insert,delete,update,deleteAll,getAllMembersNonLive. Doing these operations on the main thread could
+* lock our user interface */
 
 public class MemberRepository {
     private MemberDao memberDao;
     private LiveData<List<MemberEntity>> allMembers;
 
-    public MemberRepository(Application application, String gName) {
+    MemberRepository(Application application, String gName) {
         AppDatabase database = AppDatabase.getInstance(application);
         memberDao = database.memberDao();
         allMembers = memberDao.getAll(gName);
@@ -34,8 +34,30 @@ public class MemberRepository {
         new DeleteAllAsyncTask(memberDao).execute(gName);
     }
 
-    public LiveData<List<MemberEntity>> getAllMembers() {
+    LiveData<List<MemberEntity>> getAllMembers() {
         return allMembers;
+    }
+
+    List<MemberEntity> getAllMembersNonLive(String gName) {
+        GetAllMembersNonLiveAsyncTask members = new GetAllMembersNonLiveAsyncTask(memberDao);
+        try {
+            return members.execute(gName).get();
+        } catch (Exception err) {
+            return new ArrayList<>(); // if there are no members in database return a blank array list
+        }
+    }
+
+    private static class GetAllMembersNonLiveAsyncTask extends AsyncTask<String,Void,List<MemberEntity>> {
+        private MemberDao memberDao;
+
+        private GetAllMembersNonLiveAsyncTask(MemberDao memberDao) {
+            this.memberDao = memberDao;
+        }
+
+        @Override
+        protected List<MemberEntity> doInBackground(String... strings) {
+            return memberDao.getAllNonLive(strings[0]);
+        }
     }
 
 

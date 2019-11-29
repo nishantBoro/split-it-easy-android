@@ -1,6 +1,6 @@
 package com.nishantboro.splititeasy;
 
-public class GetAllBillsForMemberAsyncParams {
+class GetAllBillsForMemberAsyncParams {
 
     String gName;
     int mid;

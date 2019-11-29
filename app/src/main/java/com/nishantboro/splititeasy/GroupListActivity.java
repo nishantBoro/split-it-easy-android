@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GroupListActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT_GNAME = "com.nishantboro.splititeasy.EXTRA_TEXT_GNAME";
     private List<GroupEntity> groupNames = new ArrayList<>();
@@ -32,13 +31,15 @@ public class GroupListActivity extends AppCompatActivity {
         // set toolbar
         Toolbar toolbar = findViewById(R.id.groupListToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         setTitle("Groups");
 
         // prepare recycler view
         RecyclerView recyclerView = findViewById(R.id.group_list_recycler_view);
         recyclerView.setHasFixedSize(true);
-        // second parameter -> attach this activity as a listener to every item in the group list
+        // second parameter below -> attach this activity as a listener to every item in the group list
         adapter = new GroupListActivityViewAdapter(GroupListActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -78,30 +79,27 @@ public class GroupListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.deleteAllGroups:
-                if(!this.groupNames.isEmpty()) {
-                    this.groupViewModel.deleteAll();
-                    Toast.makeText(this, "All Groups Deleted", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                Toast.makeText(this, "Nothing To Delete", Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
-            default:
-                // finish if user clicks on back button
-                finish();
+        if(item.getItemId() == R.id.deleteAllGroups) {
+            if(!groupNames.isEmpty()) {
+                groupViewModel.deleteAll();
+                Toast.makeText(this, "All Groups Deleted", Toast.LENGTH_SHORT).show();
                 return true;
+            }
+            Toast.makeText(this, "Nothing To Delete", Toast.LENGTH_SHORT).show();
+            return super.onOptionsItemSelected(item);
         }
+        // finish if user clicks on back button
+        finish();
+        return true;
     }
 
     @Override
     public void onPause() {
-        if(this.adapter.multiSelect) {
-            this.adapter.actionMode.finish();
-            this.adapter.multiSelect = false;
-            this.adapter.selectedItems.clear();
-            this.adapter.notifyDataSetChanged();
+        if(adapter.multiSelect) {
+            adapter.actionMode.finish();
+            adapter.multiSelect = false;
+            adapter.selectedItems.clear();
+            adapter.notifyDataSetChanged();
         }
         super.onPause();
     }

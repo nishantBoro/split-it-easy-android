@@ -7,9 +7,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.google.android.material.tabs.TabLayout;
 
+// This activity is initiated if the user clicks on any group while on the GroupList activity.
 public class HandleOnGroupClickActivity extends AppCompatActivity {
 
     @Override
@@ -17,22 +17,32 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.handle_on_group_click_activity);
 
-        // get the data(group name) from the intent that started this activity
+
+
+        /* get extra data(name of the group the user clicked on) from the intent that started this activity
+        * Hence, we can load all the members and bills of the group the user clicked on in GroupList Activity*/
         Intent intent = getIntent();
         String gName = intent.getStringExtra(GroupListActivity.EXTRA_TEXT_GNAME);
 
         TabLayout tabLayout = findViewById(R.id.tablayout_id);
         ViewPager viewPager = findViewById(R.id.viewpager_id);
-        Toolbar toolbar = findViewById(R.id.handleOnGroupClickToolbar);
 
+        // set toolbar
+        Toolbar toolbar = findViewById(R.id.handleOnGroupClickToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setElevation(0);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setElevation(0);
+        }
         setTitle(gName);
 
-        AddNewGroupFragmentsViewAdapter adapter = new AddNewGroupFragmentsViewAdapter(getSupportFragmentManager(),0);
+        // create adapter for viewpager and add all three fragments/tabs to this adapter
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        // pass along the group name so that the fragment can generate all the members of the group the user clicked on in GroupList activity
         adapter.addFragment(new MembersTabFragment(gName),"Members");
+        // pass along the group name so that the fragment can generate all the expenses of the group the user clicked on in GroupList activity
         adapter.addFragment(new ExpensesTabFragment(gName),"Expenses");
+        // pass along the group name so that the fragment can generate all the balances of the group the user clicked on in GroupList activity
         adapter.addFragment(new BalancesTabFragment(gName),"Balances");
 
         viewPager.setAdapter(adapter);
@@ -42,6 +52,7 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
+            // if user clicks on back button initiate finish to close activity
             finish();
             return true;
         }

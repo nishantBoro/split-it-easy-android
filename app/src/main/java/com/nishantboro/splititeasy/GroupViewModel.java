@@ -1,7 +1,6 @@
 package com.nishantboro.splititeasy;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -34,11 +33,21 @@ public class GroupViewModel extends AndroidViewModel {
         repository.deleteAll();
     }
 
-    public LiveData<List<GroupEntity>> getAllGroups() {
+    LiveData<List<GroupEntity>> getAllGroups() {
         return allGroups;
     }
 
-    public List<GroupEntity> getAllGroupsNonLiveData() {
+    List<GroupEntity> getAllGroupsNonLiveData() {
         return repository.getAllGroupsNonLive();
     }
+
+    LiveData<String> getGroupCurrency(String gName) {
+        return repository.getGroupCurrency(gName);
+    }
+
+    String getGroupCurrencyNonLive(String gName) {
+        return repository.getGroupCurrencyNonLive(gName);
+    }
+
+
 }

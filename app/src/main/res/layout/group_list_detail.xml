@@ -5,6 +5,8 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="7dp">
 
@@ -23,6 +25,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:contentDescription="Group icon"
             />
 
         <TextView

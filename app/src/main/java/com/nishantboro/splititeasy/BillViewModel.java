@@ -12,7 +12,7 @@ public class BillViewModel extends AndroidViewModel {
     private BillRepository repository;
     private LiveData<List<BillEntity>> allBills;
 
-    public BillViewModel(@NonNull Application application,String gName) {
+    BillViewModel(@NonNull Application application,String gName) {
         super(application);
         repository = new BillRepository(application,gName);
         allBills = repository.getAllBills();
@@ -34,11 +34,11 @@ public class BillViewModel extends AndroidViewModel {
         repository.deleteAll(gName);
     }
 
-    public LiveData<List<BillEntity>> getAllBills() {
+    LiveData<List<BillEntity>> getAllBills() {
         return allBills;
     }
 
-    public List<BillEntity> getAllMemberBills(String gName, int mid) {
+    List<BillEntity> getAllMemberBills(String gName, int mid) {
         return repository.getAllBillsForMember(gName, mid);
     }
 }

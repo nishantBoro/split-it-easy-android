@@ -6,6 +6,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+// Column "MemberId" has a foreign key reference to column "Id" of MemberEntity.
+// Column "GroupName" has a foreign key reference to column "GroupName" of GroupEntity
 @Entity(foreignKeys = {
         @ForeignKey(entity = MemberEntity.class,
             parentColumns = "Id",
@@ -24,11 +26,10 @@ import androidx.room.PrimaryKey;
                 @Index(name="GroupNameIndexBill",value = {"GroupName"})
         })
 public class BillEntity {
-    BillEntity(int mid, String item, String cost, String currency, String gName,String paidBy) {
+    BillEntity(int mid, String item, String cost, String gName,String paidBy) {
         this.mid = mid;
         this.item = item;
         this.cost = cost;
-        this.currency = currency;
         this.gName = gName;
         this.paidBy = paidBy;
     }
@@ -43,16 +44,13 @@ public class BillEntity {
     public String item;
 
     @ColumnInfo(name = "PaidBy")
-    public String paidBy;
+    String paidBy;
 
     @ColumnInfo(name = "Cost")
-    public String cost;
-
-    @ColumnInfo(name = "Currency")
-    public String currency;
+    String cost;
 
     @ColumnInfo(name = "GroupName")
-    public String gName;
+    String gName;
 
     public void setId(int id) {
         this.id = id;

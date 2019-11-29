@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SplitItEasy</string>
+    <string name="app_name">Split It Easy</string>
 
     <string-array name="currencySymbols">
         <item>INR-(₹)</item>

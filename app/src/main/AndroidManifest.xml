@@ -4,44 +4,32 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddEditMemberActivity"/>
-        <activity android:name=".HandleOnGroupClickActivity" />
-        <activity android:name=".GroupListActivity" />
-        <activity android:name=".AddEditBillActivity" />
-        <activity android:name=".CreateNewGroupActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="filter_view_example">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/splititeasy” -->
-                <data
-                    android:host="www.google.com"
-                    android:pathPrefix="/splititeasy"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "example://gizmos” -->
-                <data
-                    android:host="splititeasy"
-                    android:scheme="google" />
+                <!-- Accepts URIs that begin with "https://www.splititeasy.com” -->
+                <data android:scheme="https"
+                    android:host="www.splititeasy.com" />
+                <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
         </activity>
+        <activity android:name=".AddEditMemberActivity"/>
+        <activity android:name=".AddEditBillActivity"/>
+        <activity android:name=".HandleOnGroupClickActivity" />
+        <activity android:name=".GroupListActivity" />
+        <activity android:name=".CreateNewGroupActivity" />
     </application>
 
 </manifest>

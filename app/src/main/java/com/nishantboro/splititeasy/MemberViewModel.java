@@ -1,7 +1,6 @@
 package com.nishantboro.splititeasy;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -12,7 +11,7 @@ public class MemberViewModel extends AndroidViewModel {
     private MemberRepository repository;
     private LiveData<List<MemberEntity>> allMembers;
 
-    public MemberViewModel(@NonNull Application application, String gName) {
+    MemberViewModel(@NonNull Application application, String gName) {
         super(application);
         repository = new MemberRepository(application,gName);
         allMembers = repository.getAllMembers();
@@ -34,8 +33,12 @@ public class MemberViewModel extends AndroidViewModel {
         repository.deleteAll(gName);
     }
 
-    public LiveData<List<MemberEntity>> getAllMembers() {
+    LiveData<List<MemberEntity>> getAllMembers() {
         return allMembers;
+    }
+
+    List<MemberEntity> getAllMembersNonLiveData(String gName) {
+        return repository.getAllMembersNonLive(gName);
     }
 
 }

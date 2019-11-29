@@ -6,24 +6,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
+/* Note that this activity can act as a Add Member Activity or Edit Member Activity based on the intent data we receive*/
 public class AddEditMemberActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText editText;
-    private ImageView imageView;
-    private MemberViewModel memberViewModel;
     private String gName;
     private int requestCode;
     private int userId;
@@ -39,26 +36,27 @@ public class AddEditMemberActivity extends AppCompatActivity implements AdapterV
             return;
         }
 
-        memberViewModel = ViewModelProviders.of(this,new MemberViewModelFactory(this.getApplication(),this.gName)).get(MemberViewModel.class);
+        MemberViewModel memberViewModel = ViewModelProviders.of(this,new MemberViewModelFactory(getApplication(),gName)).get(MemberViewModel.class);
 
-        if(this.requestCode == 1) {
+        if(requestCode == 1) { // 1 for Add Member Activity
             // store the name in database
             MemberEntity member = new MemberEntity(name,gName);
-            member.setMAvatar(this.avatarResource);
+            member.setMAvatar(avatarResource);
             memberViewModel.insert(member);
         }
 
-        if(this.requestCode == 2) {
-            // update the database
+        if(requestCode == 2) { // 2 for Edit Member Activity
             MemberEntity member = new MemberEntity(name,gName);
 
-            if(this.userId == -1) {
-                Log.d("userIdError", "member cannot be updated");
+            if(userId == -1) {
+                Toast.makeText(this, "Member could not be updated", Toast.LENGTH_SHORT).show();
                 return;
             }
-            member.setId(this.userId);
-            member.setMAvatar(this.avatarResource);
-            Log.d("userID", Integer.toString(this.userId));
+
+            /* update the database. note that update operation in memberViewModel looks for a row in MemberEntity where the value of column("Id")  = userId
+               and if found, updates other columns in the row */
+            member.setId(userId);
+            member.setMAvatar(avatarResource);
             memberViewModel.update(member);
         }
     }
@@ -66,43 +64,47 @@ public class AddEditMemberActivity extends AppCompatActivity implements AdapterV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-        Log.d("look", "i ran oncreate addeditmember");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_member_activity);
 
-        // get the data(group name) from the intent that started this activity
+        editText = findViewById(R.id.addMemberNameText);
+
+        // get data from the intent that started this activity
         Intent intent = getIntent();
-        this.gName = intent.getStringExtra(GroupListActivity.EXTRA_TEXT_GNAME);
-        this.editText = findViewById(R.id.addMemberNameText);
-        this.imageView = findViewById(R.id.memberDetailAvatar);
-        this.requestCode = intent.getIntExtra("requestCode",0);
-        this.userId = intent.getIntExtra(MembersTabFragment.EXTRA_ID,-1);
+        gName = intent.getStringExtra("groupName");
+        requestCode = intent.getIntExtra("requestCode",0);
 
         // set toolbar
         Toolbar toolbar = findViewById(R.id.addMemberToolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null) {
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // set spinner for avatar
+        // implement spinner for avatar
         final Spinner spinnerAvatar = findViewById(R.id.addMemberActivityAvatarSpinner);
-        final AddEditMemberAvatarSpinnerAdapter addEditMemberAvatarSpinnerAdapter = new AddEditMemberAvatarSpinnerAdapter(this,new ArrayList<Integer>());
+        final AddEditMemberAvatarSpinnerAdapter addEditMemberAvatarSpinnerAdapter = new AddEditMemberAvatarSpinnerAdapter(this,new ArrayList<Integer>()); // adapter for spinner
         addEditMemberAvatarSpinnerAdapter.setDropDownViewResource(0);
-        spinnerAvatar.setAdapter(addEditMemberAvatarSpinnerAdapter);
+        spinnerAvatar.setAdapter(addEditMemberAvatarSpinnerAdapter); // set the adapter to spinner
         spinnerAvatar.setOnItemSelectedListener(this);
 
-        // populate the spinner list
+        // populate the spinner adapter's list
         List<Integer> avatarOptions = new ArrayList<>();
-        this.populateAvatarList(avatarOptions);
+        populateAvatarList(avatarOptions);
         addEditMemberAvatarSpinnerAdapter.addAll(avatarOptions);
 
-        if(intent.hasExtra(MembersTabFragment.EXTRA_TEXT)) {
+        if(intent.hasExtra("memberId")) {
+            // Only edit member intent sends "memberId" with it
+            // Get data from the edit member intent that started this activity
+            userId = intent.getIntExtra("memberId",-1);
+
             setTitle("Edit Member");
-            this.editText.setText(intent.getStringExtra(MembersTabFragment.EXTRA_TEXT));
-            Log.d("asd", Integer.toString(intent.getIntExtra("avatarResource",-1)));
-            int spinnerAvatarPosition = addEditMemberAvatarSpinnerAdapter.getPosition(intent.getIntExtra("avatarResource",-1));
-            spinnerAvatar.setSelection(spinnerAvatarPosition);
+
+            editText.setText(intent.getStringExtra("memberName")); // set default text received from the intent
+
+            // set default spinner item
+            int spinnerAvatarPosition = addEditMemberAvatarSpinnerAdapter.getPosition(intent.getIntExtra("avatarResource",-1)); // get position of the avatar(received from intent) in spinner array
+            spinnerAvatar.setSelection(spinnerAvatarPosition); // set spinner default selection
         } else {
             setTitle("Add Member to Group");
         }
@@ -131,26 +133,19 @@ public class AddEditMemberActivity extends AppCompatActivity implements AdapterV
     // call this method when an option in the menu is selected
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // if user clicks on submit button, save/update the database
         if(item.getItemId() == R.id.addMemberToolbarMenu) {
             saveEditMember();
         }
 
-        finish();
+        finish(); // if the user clicks on back button close this activity
         return true;
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.addMemberActivityAvatarSpinner:
-                this.avatarResource = Integer.parseInt(parent.getItemAtPosition(position).toString());
-                Log.d("p", "selected avatar");
-            default:break;
+        if(parent.getId() == R.id.addMemberActivityAvatarSpinner) { // if user clicks on an avatar
+            avatarResource = Integer.parseInt(parent.getItemAtPosition(position).toString());
         }
     }
 
