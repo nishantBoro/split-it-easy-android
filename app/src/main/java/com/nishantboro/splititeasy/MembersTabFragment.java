@@ -21,14 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MembersTabFragment extends Fragment {
-    private String gName; // group name
     private MemberViewModel memberViewModel;
+    private String gName; // group name
     private MembersTabViewAdapter adapter;
     private List<MemberEntity> members = new ArrayList<>(); // maintain a list of all the existing members of the group from the database
-
-    MembersTabFragment(String gName) {
-        this.gName = gName;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +32,22 @@ public class MembersTabFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    static MembersTabFragment newInstance(String gName) {
+        Bundle args = new Bundle();
+        args.putString("group_name", gName);
+        MembersTabFragment f = new MembersTabFragment();
+        f.setArguments(args);
+        return f;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.members_fragment,container,false);
+        if(getArguments() == null) {
+            return view;
+        }
+        gName = getArguments().getString("group_name"); // get group name from bundle
 
         // prepare recycler view for displaying all members of the group
         RecyclerView recyclerView = view.findViewById(R.id.membersRecyclerView);
@@ -107,8 +115,8 @@ public class MembersTabFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if(item.getItemId() == R.id.deleteAllMembers) {
-            if(!this.members.isEmpty()) { // condition prevents initiating a deleteAll operation if there are no members to delete
-                this.memberViewModel.deleteAll(this.gName);
+            if(!members.isEmpty()) { // condition prevents initiating a deleteAll operation if there are no members to delete
+                memberViewModel.deleteAll(gName);
                 Toast.makeText(getActivity(), "All Members Deleted", Toast.LENGTH_SHORT).show();
                 return true;
             }

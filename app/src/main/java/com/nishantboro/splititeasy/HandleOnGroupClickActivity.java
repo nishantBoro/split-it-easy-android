@@ -17,8 +17,6 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.handle_on_group_click_activity);
 
-
-
         /* get extra data(name of the group the user clicked on) from the intent that started this activity
         * Hence, we can load all the members and bills of the group the user clicked on in GroupList Activity*/
         Intent intent = getIntent();
@@ -39,11 +37,11 @@ public class HandleOnGroupClickActivity extends AppCompatActivity {
         // create adapter for viewpager and add all three fragments/tabs to this adapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         // pass along the group name so that the fragment can generate all the members of the group the user clicked on in GroupList activity
-        adapter.addFragment(new MembersTabFragment(gName),"Members");
+        adapter.addFragment(MembersTabFragment.newInstance(gName),"Members");
         // pass along the group name so that the fragment can generate all the expenses of the group the user clicked on in GroupList activity
-        adapter.addFragment(new ExpensesTabFragment(gName),"Expenses");
+        adapter.addFragment(ExpensesTabFragment.newInstance(gName),"Expenses");
         // pass along the group name so that the fragment can generate all the balances of the group the user clicked on in GroupList activity
-        adapter.addFragment(new BalancesTabFragment(gName),"Balances");
+        adapter.addFragment(BalancesTabFragment.newInstance(gName),"Balances");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

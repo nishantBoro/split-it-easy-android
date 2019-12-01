@@ -37,13 +37,13 @@ public class BillEntity {
     @ColumnInfo(name = "Id")
     public int id;
 
-    @ColumnInfo(name = "MemberId")
+    @ColumnInfo(name = "MemberId") // id of the member who paid for the bill
     public int mid;
 
     @ColumnInfo(name = "Item")
     public String item;
 
-    @ColumnInfo(name = "PaidBy")
+    @ColumnInfo(name = "PaidBy") // name of the member who paid for the bill
     String paidBy;
 
     @ColumnInfo(name = "Cost")

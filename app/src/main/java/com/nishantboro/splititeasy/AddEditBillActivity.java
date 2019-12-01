@@ -212,6 +212,7 @@ public class AddEditBillActivity extends AppCompatActivity implements AdapterVie
         switch (parent.getId()) {
             case R.id.addBillItemCurrencySpinner:
                 currency = parent.getItemAtPosition(position).toString();
+                break;
 //                Log.d("p", "selected currency");
             case R.id.addBillItemPaidBy:
 //                Log.d("t", "selected paidBy");

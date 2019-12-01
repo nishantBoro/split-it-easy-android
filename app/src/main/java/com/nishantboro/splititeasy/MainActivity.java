@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0); // removes shadow/elevation between toolbar and status bar
         }
-        setTitle("              SPLIT IT EASY");
-
+        setTitle("");
         // set drawer
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,

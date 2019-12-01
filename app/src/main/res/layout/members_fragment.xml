@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:background="@color/lightGray" />
+        android:background="@color/lightGray"
+        android:paddingBottom="2.5dp"
+        android:paddingTop="2.5dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/membersFragmentAdd"

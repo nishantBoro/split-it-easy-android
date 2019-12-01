@@ -20,7 +20,7 @@ import java.util.PriorityQueue;
 
 
 public class BalancesTabFragment extends Fragment {
-    public String gName;
+    public String gName; // group name
     private String currency;
     private List<MemberEntity> members = new ArrayList<>();
     private List<HashMap<String,Object>> results = new ArrayList<>();
@@ -51,7 +51,7 @@ public class BalancesTabFragment extends Fragment {
         // Each member in the group is supposed to pay an amount of sum/(members.size()) = eachPay
         BigDecimal eachPay = sum.divide(new BigDecimal(members.size()),2, RoundingMode.HALF_EVEN);
 
-        /* Find the balance of everyone in the group. Balance is the amount of money someone owes or is owed from the group.
+        /* Find the balance of everyone in the group. Balance is the net amount of money someone owes or is owed from the group.
         * Balance of someone = eachPay - total money paid by the member.
         * If someone has a -ve balance, it means he is owed money and hence is added to the debtors list
         * If someone has a +ve balance, it means he owes money to the group and hence is added to the creditors list*/
@@ -80,7 +80,7 @@ public class BalancesTabFragment extends Fragment {
         * transactions. Repeat the same thing until and unless there are no creditors and debtors.
         *
         * The priority queues help us find the largest creditor and debtor in constant time. However, adding/removing a member takes O(log n) time to perform it.
-        * Optimisation: This algorithm produces correct results but the no of transactions is not minimum. To minimize it, we could use subset sum algorithm which is a NP problem.
+        * Optimisation: This algorithm produces correct results but the no of transactions is not minimum. To minimize it, we could use the subset sum algorithm which is a NP problem.
         * The use of a NP solution could really slow down the app! */
         while(!creditors.isEmpty() && !debtors.isEmpty()) {
             Balance rich = creditors.peek(); // get the largest creditor
@@ -123,18 +123,22 @@ public class BalancesTabFragment extends Fragment {
         }
     }
 
-    BalancesTabFragment(String gName) {
-        this.gName = gName;
+    static BalancesTabFragment newInstance(String gName) {
+        Bundle args = new Bundle();
+        args.putString("group_name", gName);
+        BalancesTabFragment f = new BalancesTabFragment();
+        f.setArguments(args);
+        return f;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.balances_fragment,container,false);
-
-        if(getActivity() == null) {
+        if(getArguments() == null || getActivity() == null) {
             return view;
         }
+        gName = getArguments().getString("group_name"); // get group name from bundle
 
         recyclerView = view.findViewById(R.id.balancesRecyclerView);
         emptyView = view.findViewById(R.id.no_data);
@@ -181,6 +185,7 @@ public class BalancesTabFragment extends Fragment {
             calculateTransactions();
             resultEmptyCheck();
         } else {
+            results.clear();
             resultEmptyCheck();
         }
     }

@@ -28,8 +28,12 @@ public class ExpensesTabFragment extends Fragment {
     private ExpensesTabViewAdapter adapter;
     private StringBuilder currency = new StringBuilder();
 
-    ExpensesTabFragment(String gName) {
-        this.gName = gName;
+    static ExpensesTabFragment newInstance(String gName) {
+        Bundle args = new Bundle();
+        args.putString("group_name", gName);
+        ExpensesTabFragment f = new ExpensesTabFragment();
+        f.setArguments(args);
+        return f;
     }
 
     @Override
@@ -42,6 +46,10 @@ public class ExpensesTabFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expenses_fragment,container,false);
+        if(getArguments() == null) {
+            return view;
+        }
+        gName = getArguments().getString("group_name"); // get group name from bundle
 
         // prepare recycler view for displaying all expenses of the group
         RecyclerView recyclerView = view.findViewById(R.id.expensesRecyclerView);

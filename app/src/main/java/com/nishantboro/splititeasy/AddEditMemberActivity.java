@@ -78,7 +78,7 @@ public class AddEditMemberActivity extends AppCompatActivity implements AdapterV
         Toolbar toolbar = findViewById(R.id.addMemberToolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         // implement spinner for avatar
