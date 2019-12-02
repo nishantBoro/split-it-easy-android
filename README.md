@@ -1,4 +1,5 @@
 # Split It Easy
+Going on a road trip?.  Worried about all the maths you gotta do to find out "who owes whom and how much" after the trip?. Well, worry not!. Add all your expenses to this app and let it do the calculations for you.
 
 ## Features:
 - Offline app
@@ -44,7 +45,8 @@ Entity(columns)
 
 ## Algorithm used for settling debts:
 
-Calculate Balances: Find the balance of everyone in the group. Balance is the net amount of money someone owes or is owed from the group. Ex: \
+Calculate Balances: Find the balance of everyone in the group. Balance is the net amount of money someone owes or is owed from the group. Ex:
+### Initially: 
 Member Expenses(Contributions made by the member) \
 ----------- --------- \
 A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;500 \
@@ -54,7 +56,7 @@ Total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1300
 
 Divide Total/noOfMembers = 1300/3=433.33(let's call this as eachPay). Hence, each member in the group was supposed to spend an expense of 433.33 bucks. Next, for each individual, subtract expenses(of the member) from eachPay. Ex: For member A, balance = eachPay - expenses of the member=433.33-500=-66.67. If the balance turns out to be -ve, it means the individual is owed money and hence added to the debtors list. If the balance turns out to be +ve, it means the individual owes money to the group and hence added to the creditors list. \
 
-Final Balances: \
+### Final Balances:
 Member Balances \
 ----------- --------- \
 A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-66.67  
