@@ -1,9 +1,6 @@
 # Split It Easy
 Going on a road trip?.  Worried about all the maths you gotta do to find out "who owes whom and how much" after the trip?. Well, worry not!. Add all your expenses to this app and let it do the calculations for you.
 
-## Installation:
-Amazon AppStore: https://www.amazon.com/dp/B08273SN5W/ref=sr_1_1?_encoding=UTF8&qid=1575320141&refinements=p_4%3ANishant+Boro&s=mobile-apps&sr=1-1
-
 ## Features:
 - Offline app
 - No user login and registration required
