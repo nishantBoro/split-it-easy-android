@@ -24,7 +24,8 @@ Amazon AppStore: https://www.amazon.com/dp/B08273SN5W/ref=sr_1_1?_encoding=UTF8&
 
 <img src="https://github.com/nishant-boro/split-it-easy-android/blob/master/screenshots/Screenshot_7.png" width="200"> <img src="https://github.com/nishant-boro/split-it-easy-android/blob/master/screenshots/Screenshot_8.png" width="200">
 
-
+## How to use it?
+![](split_it_easy.gif)
 
 ## Database Design:
 We use three simple entities:
