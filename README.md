@@ -1,6 +1,16 @@
 # Split It Easy
 Going on a road trip?.  Worried about all the maths you gotta do to find out "who owes whom and how much" after the trip?. Well, worry not!. Add all your expenses to this app and let it do the calculations for you.
 
+# Download: 
+https://github.com/nishant-boro/split-it-easy-android/releases/download/v1.0/splitItEasy.apk
+
+### Also, available on, f-Droid: 
+https://f-droid.org/en/packages/com.nishantboro.splititeasy/ 
+### XDA Labs: 
+https://labs.xda-developers.com/store/app/com.nishantboro.splititeasy 
+### Amazon App Store: 
+https://www.amazon.com/dp/B08273SN5W/ref=sr_1_1?_encoding=UTF8&qid=1575320141&refinements=p_4%3ANishant+Boro&s=mobile-apps&sr=1-1
+
 ## Features:
 - Offline app
 - No user login and registration required
