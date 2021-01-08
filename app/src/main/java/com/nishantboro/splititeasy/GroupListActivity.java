@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +54,11 @@ public class GroupListActivity extends AppCompatActivity {
                 // here groupEntities is the list of current items in the groupList
                 groupNames = groupEntities;
                 adapter.saveToList(groupEntities);
+                // check if there are no groups
+                TextView emptyListMsgTV = (TextView) findViewById(R.id.noGroupsMsg);
+                if (adapter.getItemCount() == 0) {
+                    emptyListMsgTV.setText("No groups found :(\nPlease create a new group");
+                }
             }
         });
 
