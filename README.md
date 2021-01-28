@@ -2,7 +2,7 @@
 Going on a road trip?.  Worried about all the maths you gotta do to find out "who owes whom and how much" after the trip?. Well, worry not!. Add all your expenses to this app and let it do the calculations for you.
 
 # Download: 
-https://github.com/nishant-boro/split-it-easy-android/releases/download/v1.0/splitItEasy.apk
+https://github.com/nishant-boro/split-it-easy-android/releases/download/v1.1/splitItEasy.apk
 
 ### Also, available on, f-Droid: 
 https://f-droid.org/en/packages/com.nishantboro.splititeasy/ 
